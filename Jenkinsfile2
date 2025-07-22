@@ -1,9 +1,10 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.9-eclipse-temurin-17'
-        }
-    }
+    agent any
+    // agent {
+    //     docker {
+    //         image 'maven:3.9.9-eclipse-temurin-17'
+    //     }
+    // }
 
     tools {
         maven 'maven-3.9'
