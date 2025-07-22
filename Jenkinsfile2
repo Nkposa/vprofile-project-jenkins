@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu:24.04'
+        }
+    }
+    tools {
+        maven 'maven-3.9'
+    }
+    stages {
+        stage ('Unit test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage ('Build') {
+            steps {
+                sh 'mvn install - DskipTests'
+            }
+        }
+
+    }
+}
