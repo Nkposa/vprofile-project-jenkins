@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu:24.04'
+        }
+    }
+    tools {
+        maven 'maven-3.9'
+    }
+    stages {
+        stage ('Unit test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage ('Build') {
+            steps {
+                sh 'mvn install - DskipTests'
+            }
+        }
+        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                success {
+                    echo 'Generated Analysis Result'
+                }
+            }
+        }
+
+    }
+}
