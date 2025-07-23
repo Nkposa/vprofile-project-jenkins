@@ -58,19 +58,19 @@ pipeline {
     steps {
         script {
             def release = createGitHubRelease(
-    repository: 'nkposa/vprofile-project-jenkins',
-    tag: "v1.0",
-    commitish: "main",
-    credentialsId: 'github-token'
-)
+                repository: 'nkposa/vprofile-project-jenkins',
+                tag: "v1.0",
+                commitish: "main",
+                credentialsId: 'github-token'
+            )
             uploadGithubReleaseAsset(
                 uploadUrl: release.uploadUrl,
-                assetsPath: 'target/*.war'
+                assetsPath: 'target/*.war',
                 credentialsId: 'github-token'
-                // Add credentialsId here only if your plugin version supports it
             )
         }
     }
 }
+
     }
 }
