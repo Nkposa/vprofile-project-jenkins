@@ -63,13 +63,13 @@ pipeline {
                 commitish: "main",
                 draft: false,
                 prerelease: false,
-                credentialsId: 'github-token'   // Make sure this matches the ID you created!
+                credentialId: 'github-token'   // Make sure this matches the ID you created!
             )
             uploadGithubReleaseAsset(
                 uploadUrl: release.uploadUrl,
                 assetsPath: 'target/*.war'
                 credentialsId: 'github-token'
-                // Add credentialsId here only if your plugin version supports it
+                // Add credentialId here only if your plugin version supports it
             )
         }
     }
