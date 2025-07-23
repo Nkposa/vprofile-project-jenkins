@@ -1,11 +1,5 @@
 pipeline {
     agent any
-    // agent {
-    //     docker {
-    //         image 'maven:3.9.9-eclipse-temurin-17'
-    //     }
-    // }
-
     tools {
         maven 'maven-3.9'
     }
@@ -59,24 +53,22 @@ pipeline {
             }
         }
 
-        stage('GitHub Release') {
-            steps {
-                script {
-                    def release = createGitHubRelease(
-                        repository: 'nkposa/vprofile-project-jenkins',
-                        tag: "v1.0",
-                        releaseName: "Release v1.0",
-                        body: "Automated release from Jenkins pipeline",
-                        draft: false,
-                        prerelease: false,
-                        credentialsId: 'github-token'
-                    )
-                    uploadGithubReleaseAsset(
-                        uploadUrl: release.uploadUrl,
-                        assetsPath: 'target/*.war',
-                        credentialsId: 'github-token'
-                    )
-                }
+     stage('GitHub Release') {
+    steps {
+        script {
+            def release = createGitHubRelease(
+                repository: 'nkposa/vprofile-project-jenkins',
+                tag: "v1.0",
+                commitish: "main",    // Branch or commit SHA to base the release on
+                draft: false,
+                prerelease: false
+            )
+            uploadGithubReleaseAsset(
+                uploadUrl: release.uploadUrl,
+                assetsPath: 'target/*.war'
+                // Add credentialsId here only if your plugin version supports it
+            )
+        }
     }
 }
     }
