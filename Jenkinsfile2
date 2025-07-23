@@ -1,5 +1,11 @@
 pipeline {
     agent any
+    // agent {
+    //     docker {
+    //         image 'maven:3.9.9-eclipse-temurin-17'
+    //     }
+    // }
+
     tools {
         maven 'maven-3.9'
     }
@@ -13,7 +19,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn install -DskipTests' // Removed space after `-`
+                sh 'mvn install -DskipTests'
             }
             post {
                 success {
@@ -33,28 +39,38 @@ pipeline {
                 }
             }
         }
-          stage('CODE ANALYSIS with SONARQUBE') {
-          
-		  environment {
-             scannerHome = tool 'sonarscanner4'
-          }
 
-          steps {
-            withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
-                   -Dsonar.projectVersion=1.0 \
-                   -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
-                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
-                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+        stage('CODE ANALYSIS with SONARQUBE') {
+            environment {
+                scannerHome = tool 'sonarscanner4'
             }
+            steps {
+                withSonarQubeEnv('sonar-pro') {
+                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                        -Dsonar.projectName=vprofile-repo \
+                        -Dsonar.projectVersion=1.0 \
+                        -Dsonar.sources=src/ \
+                        -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                        -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                        -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                        -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+                }
+                
+            }
+        }
 
-            timeout(time: 10, unit: 'MINUTES') {
-               waitForQualityGate abortPipeline: true
+        stage('GitHub Release') {
+            steps {
+                githubRelease(
+                    repository: 'nkposa/vprofile-project-jenkins', // change this if needed
+                    tag: "v1.0", // can be dynamic
+                    releaseName: "Release v1.0",
+                    body: "Automated release from Jenkins pipeline",
+                    assets: ['target/*.war'],
+                    overwrite: true,
+                    credentialsId: 'github-token'
+                )
             }
-          }
         }
     }
 }
