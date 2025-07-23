@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     tools {
         maven 'maven-3.9'
     }
@@ -62,10 +63,12 @@ pipeline {
                 commitish: "main",    // Branch or commit SHA to base the release on
                 draft: false,
                 prerelease: false
+                credentialsId: 'github-token'
             )
             uploadGithubReleaseAsset(
                 uploadUrl: release.uploadUrl,
                 assetsPath: 'target/*.war'
+                credentialsId: 'github-token'
                 // Add credentialsId here only if your plugin version supports it
             )
         }
