@@ -55,22 +55,24 @@ pipeline {
         }
 
      stage('GitHub Release') {
+    environment {
+        GITHUB_TOKEN = credentials('github-token')
+    }
     steps {
         script {
             def release = createGitHubRelease(
                 repository: 'nkposa/vprofile-project-jenkins',
                 tag: "v1.0",
-                commitish: "main",
-                credentialsId: 'github-token'
+                commitish: "main"
             )
             uploadGithubReleaseAsset(
                 uploadUrl: release.uploadUrl,
-                assetsPath: 'target/*.war',
-                credentialsId: 'github-token'
+                assetsPath: 'target/*.war'
             )
         }
     }
 }
+
 
     }
 }
