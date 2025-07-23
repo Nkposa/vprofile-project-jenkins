@@ -60,10 +60,10 @@ pipeline {
             def release = createGitHubRelease(
                 repository: 'nkposa/vprofile-project-jenkins',
                 tag: "v1.0",
-                commitish: "main",    // Branch or commit SHA to base the release on
+                commitish: "main",
                 draft: false,
-                prerelease: false
-                credentialsId: 'github-token'
+                prerelease: false,
+                credentialsId: 'github-token'   // Make sure this matches the ID you created!
             )
             uploadGithubReleaseAsset(
                 uploadUrl: release.uploadUrl,
