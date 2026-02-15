@@ -34,3 +34,9 @@ jobs:
             
           - name: Display war file
             run: ls -l target/*.war  
+
+          - name: Artifact Upload
+            uses: actions/upload-artifact@v3
+            with:
+              name: vprofile-v2-war
+              path: target/*.war
