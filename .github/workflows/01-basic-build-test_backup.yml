@@ -36,7 +36,7 @@ jobs:
             run: ls -l target/*.war  
 
           - name: Artifact Upload
-            uses: actions/upload-artifact@v3
+            uses: actions/upload-artifact@v4
             with:
               name: vprofile-v2-war
               path: target/*.war
