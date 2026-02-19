@@ -1,7 +1,7 @@
 services:
   vprodb:
     build:
-      context: ./vagrant/windowsAndMacIntel/Docker-files/db
+      context: ./Docker-files/db
       dockerfile: Dockerfile
     container_name: vprodb
     image: nkposa/vprofiledb
@@ -31,7 +31,7 @@ services:
   vproapp:
     build: 
       context: .
-      dockerfile: vagrant/windowsAndMacIntel/Docker-files/app/Dockerfile
+      dockerfile: ./Docker-files/app/Dockerfile
     container_name: vproapp
     image: nkposa/vprofileapp
     ports:
@@ -41,7 +41,7 @@ services:
 
   vproweb:
     build:
-      context: ./vagrant/windowsAndMacIntel/Docker-files/web
+      context: ./Docker-files/web
       dockerfile: Dockerfile
     container_name: vproweb
     image: nkposa/vprofileweb
