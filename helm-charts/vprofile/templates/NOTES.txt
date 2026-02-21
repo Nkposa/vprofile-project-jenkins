@@ -1,0 +1,44 @@
+🎉 Vprofile application has been deployed successfully!
+
+Release Name: {{ .Release.Name }}
+Namespace: {{ .Release.Namespace }}
+
+📦 Components Deployed:
+- Application ({{ .Values.app.name }}): {{ .Values.app.replicas }} replica(s)
+- Database ({{ .Values.db.name }}): {{ .Values.db.replicas }} replica(s)
+- Memcached ({{ .Values.memcached.name }}): {{ .Values.memcached.replicas }} replica(s)
+- RabbitMQ ({{ .Values.rabbitmq.name }}): {{ .Values.rabbitmq.replicas }} replica(s)
+{{- if .Values.nginx.enabled }}
+- Nginx ({{ .Values.nginx.name }}): {{ .Values.nginx.replicas }} replica(s)
+{{- end }}
+
+{{- if .Values.ingress.enabled }}
+
+🌐 Application URLs:
+{{- range .Values.ingress.hosts }}
+  - http://{{ .host }}
+  {{- if $.Values.nginx.enabled }}
+  - http://{{ .host }}/naveen (Nginx)
+  {{- end }}
+{{- end }}
+{{- end }}
+
+📋 Get the status:
+  $ helm status {{ .Release.Name }}
+
+📊 Watch the deployment:
+  $ kubectl get pods -w
+
+📝 View logs:
+  $ kubectl logs -f deployment/{{ .Values.app.name }}
+
+🔍 Check all resources:
+  $ kubectl get all -l app.kubernetes.io/instance={{ .Release.Name }}
+
+⚙️  To upgrade:
+  $ helm upgrade {{ .Release.Name }} ./vprofile
+
+🗑️  To uninstall:
+  $ helm uninstall {{ .Release.Name }}
+
+For more information, visit: https://github.com/hkhcoder/vprofile-project

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.memcached.service.name }}
+  labels:
+    app: {{ .Values.memcached.name }}
+spec:
+  type: {{ .Values.memcached.service.type }}
+  selector:
+    app: {{ .Values.memcached.name }}
+  ports:
+    - port: {{ .Values.memcached.port }}
+      targetPort: vprocache01-port
+      protocol: TCP

@@ -1,3 +1,16 @@
 {
-    "snyk.advanced.autoSelectOrganization": true
+    "snyk.advanced.autoSelectOrganization": true,
+    "yaml.schemas": {
+        "kubernetes": [
+            "kubedefs/*.yaml",
+            "!helm-charts/**/*.yaml"
+        ]
+    },
+    "files.associations": {
+        "**/helm-charts/**/templates/*.yaml": "helm",
+        "**/helm-charts/**/templates/*.tpl": "helm"
+    },
+    "[helm]": {
+        "editor.formatOnSave": false
+    }
 }

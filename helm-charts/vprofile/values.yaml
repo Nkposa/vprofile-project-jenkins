@@ -1,0 +1,72 @@
+# Application Configuration
+app:
+  name: vproapp
+  replicas: 2
+  image: vprocontainers/vprofileapp
+  imagePullPolicy: Always
+  port: 8080
+  service:
+    name: vproapp-service
+    type: ClusterIP
+
+# Database Configuration
+db:
+  name: vprodb
+  replicas: 1
+  image: nkposa/vprofiledb:latest
+  imagePullPolicy: IfNotPresent
+  port: 3306
+  service:
+    name: vprodb
+    type: ClusterIP
+  storage:
+    size: 1Gi
+    storageClass: default
+  secret:
+    name: app-secret
+    key: dbpass
+
+# Memcached Configuration
+memcached:
+  name: vpromc
+  replicas: 1
+  image: memcached
+  imagePullPolicy: IfNotPresent
+  port: 11211
+  service:
+    name: vprocache01
+    type: ClusterIP
+
+# RabbitMQ Configuration
+rabbitmq:
+  name: vprormq
+  replicas: 1
+  image: rabbitmq
+  imagePullPolicy: IfNotPresent
+  port: 5672
+  service:
+    name: vpromq01
+    type: ClusterIP
+  secret:
+    name: app-secret
+    key: rmqpass
+
+# Nginx Configuration
+nginx:
+  enabled: true
+  name: vproginx
+  replicas: 1
+  image: nginx:latest
+  imagePullPolicy: IfNotPresent
+  port: 80
+  service:
+    name: vpronginx
+    type: ClusterIP
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: vprofile.posafoods.online
+    - host: hima.posafoods.online
