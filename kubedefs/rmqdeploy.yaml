@@ -21,13 +21,7 @@ spec:
         - name: vpro-rmq-port
           containerPort: 5672
           protocol: TCP
-        resources:
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
+        
         env:
         - name: RABBITMQ_DEFAULT_USER
           value: guest
