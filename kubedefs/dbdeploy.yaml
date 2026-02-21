@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vprodb
+  labels:
+    app: vprodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vprodb
+  template:
+    metadata:
+      labels:
+        app: vprodb
+    spec:
+      containers:
+      - name: vprodb
+        image: nkposa/vprofiledb:latest
+        ports:
+        - name: vpro-db-port
+          containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: dbpass
+        volumeMounts:
+        - name: vpro-db-data
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: vpro-db-data
+        persistentVolumeClaim:
+          claimName: db-pv-claim
+      initContainers:
+      - name: busybox
+        image: busybox
+        command: ['sh', '-c', 'rm -rf /var/lib/mysql/lost+found && echo Initializing database... && sleep 10']
+        volumeMounts:
+        - name: vpro-db-data
+          mountPath: /var/lib/mysql
