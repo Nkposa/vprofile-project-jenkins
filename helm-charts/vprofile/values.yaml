@@ -40,7 +40,7 @@ memcached:
 # RabbitMQ Configuration
 rabbitmq:
   name: vprormq
-  replicas: 1
+  replicas: 2
   image: rabbitmq
   imagePullPolicy: IfNotPresent
   port: 5672
