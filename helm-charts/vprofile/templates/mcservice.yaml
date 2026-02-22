@@ -10,5 +10,5 @@ spec:
     app: {{ .Values.memcached.name }}
   ports:
     - port: {{ .Values.memcached.port }}
-      targetPort: vprocache01-port
+      targetPort: memcached-port
       protocol: TCP

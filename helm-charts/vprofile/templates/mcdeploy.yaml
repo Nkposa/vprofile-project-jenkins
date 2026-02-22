@@ -19,5 +19,5 @@ spec:
         image: {{ .Values.memcached.image }}
         imagePullPolicy: {{ .Values.memcached.imagePullPolicy }}
         ports:
-        - name: vprocache01-port
+        - name: memcached-port
           containerPort: {{ .Values.memcached.port }}
